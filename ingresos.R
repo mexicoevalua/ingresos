@@ -1,10 +1,6 @@
 # Treemaps para el ingresos del gob federal de 1994-2015
 # El script organiza los datos y la visualización se hizo con Tableau Public
 
-# Directorio de trabajo
-setwd("D:/DATA.IDB/Documents/ME/PEF")
-setwd("~/Dropbox/Consultoría/micrositios/ingresos")
-
 # Cargar datos armonizados que contienen dos series para 96, 97 y 00
 data  <- read.csv("ingresos_1994-2015.csv", encoding="UTF8",
                   stringsAsFactors=F)
@@ -90,6 +86,9 @@ petNoPet  <- subset(ing, ing$tipo == "Petroleros" | ing$tipo =="No petroleros")
 table(petNoPet$tipo)
 head(petNoPet)
 
+#Verificar que todos los porcentajes sumen 100
+ddply(petNoPet,.(year), summarise,
+      sum = sum(pctTot,na.rm=T))
 # Reemplazar NAs con 0 para mantener el tamaño del rectángulo constante
 # Exportar datos como csv
 write.csv(petNoPet, "ing_pet_noPet_1994_2013.csv", fileEncoding="utf8", row.names=F,na="0")
